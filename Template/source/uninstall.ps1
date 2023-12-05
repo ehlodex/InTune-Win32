@@ -1,9 +1,8 @@
 #==================================================
-# Script Name : uninstall.ps1
-# Synopsis    : Remove ...
-# Description : ...
-# Notes       : ...
-# Last update : yyyy.mm.dd by Your Name Here ...
+# Software : Template
+# Action   : Uninstall
+# Method   : choco, misexec, winget, etc
+# Updated  : yyyy.mm.dd by Your Name Here ...
 #==================================================
 
 # Chocolatey
@@ -15,6 +14,7 @@ try {
   Write-Error $ErrorMsg
   Exit 1
 }
+Write-Output "$PackageName was removed successfully."
 Exit 0
 
 
@@ -27,6 +27,7 @@ try {
   Write-Error $ErrorMsg
   Exit 1
 }
+Write-Output "$MsiName was removed successfully."
 Exit 0
 
 
@@ -40,4 +41,5 @@ try {
   Write-Error $ErrorMsg
   Exit 1
 }
+Write-Output "$AppID was removed successfully."
 Exit 0
