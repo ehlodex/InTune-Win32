@@ -1,9 +1,8 @@
 #==================================================
-# Script Name : install.ps1
-# Synopsis    : Install ...
-# Description : ...
-# Notes       : ...
-# Last update : yyyy.mm.dd by Your Name Here ...
+# Software : Template
+# Action   : Install
+# Method   : choco, misexec, winget, etc
+# Updated  : yyyy.mm.dd by Your Name Here ...
 #==================================================
 
 # Chocolatey
@@ -15,6 +14,7 @@ try {
   Write-Error $ErrorMsg
   Exit 1
 }
+Write-Output "$PackageName was installed successfully."
 Exit 0
 
 
@@ -29,6 +29,7 @@ try {
   Write-Error $ErrorMsg
   Exit 1
 }
+Write-Output "$MsiName was installed successfully."
 Exit 0
 
 
@@ -42,4 +43,5 @@ try {
   Write-Error $ErrorMsg
   Exit 1
 }
+Write-Output "$AppID was installed successfully."
 Exit 0
