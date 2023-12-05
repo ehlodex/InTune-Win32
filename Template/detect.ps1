@@ -8,7 +8,7 @@
 # Chocolatey
 $PackageName = "package"
 [int]$PackagesInstalled = "$((choco list $PackageName | findstr "packages installed.")[0])"
-If ($PackagesInstalled -eq 1) {
+If ($PackagesInstalled -eq 0) {
   Write-Output "Cound not find $PackageName because count was $PackagesInstalled"
   Exit 1
 }
