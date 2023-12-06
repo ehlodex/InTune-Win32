@@ -7,13 +7,22 @@
 
 # Chocolatey
 $PackageName = "package"
-[int]$PackagesInstalled = "$((choco list $PackageName | findstr "packages installed.")[0])"
+$ChocoLib = "C:\ProgramData\chocolatey\lib"
+If (! (Test-Path -Path $ChocoLib\$PackageName -PathType Container)) {
+  Write-Output "Cound not find $PackageName because $ChocoLib\$PackageName does not exist."
+  Exit 1
+}
+Write-Output "Package $PackageName is installed to $ChocoLib\$PackageName"
+Exit 0
+
+# This part is failing with InTune; try again later..?
+<#[int]$PackagesInstalled = "$((choco list $PackageName | findstr "packages installed.")[0])"
 If ($PackagesInstalled -eq 0) {
   Write-Output "Cound not find $PackageName because count was $PackagesInstalled"
   Exit 1
 }
 Write-Output "Package $PackageName is installed with count $PackagesInstalled"
-Exit 0
+Exit 0#>
 
 
 # MsiExec
