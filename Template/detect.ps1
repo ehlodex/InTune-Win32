@@ -1,44 +1,64 @@
 #==================================================
 # Software : Template
 # Action   : Detect
-# Method   : Chocolatey, winget, registry, etc
-# Updated  : yyyy.mm.dd by Your Name Here ...
+# Method   : Chocolatey, MsiID, WinGet, Registry, etc
+# Updated  : yyyy-mm-dd by Your Name Here ...
 #==================================================
 
 # Chocolatey
 $PackageName = "package"
-$ChocoLib = "C:\ProgramData\chocolatey\lib"
-If (! (Test-Path -Path $ChocoLib\$PackageName -PathType Container)) {
-  Write-Output "Cound not find $PackageName because $ChocoLib\$PackageName does not exist."
-  Exit 1
-}
-Write-Output "Package $PackageName is installed to $ChocoLib\$PackageName"
-Exit 0
-
-# This part is failing with InTune; try again later..?
-<#[int]$PackagesInstalled = "$((choco list $PackageName | findstr "packages installed.")[0])"
-If ($PackagesInstalled -eq 0) {
-  Write-Output "Cound not find $PackageName because count was $PackagesInstalled"
-  Exit 1
-}
-Write-Output "Package $PackageName is installed with count $PackagesInstalled"
-Exit 0#>
-
-
-# MsiExec
-# Use the MSI detection rule in InTune
-
-
-# WinGet
-$AppID = "Package.Name"
 try {
-  $winget = "$(Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe" | Sort-Object -Property Path | Select-Object -Last 1)\winget.exe"
-  $installed = (& $winget list --id "$AppID" | findstr "$AppID")
-  If (! $installed) { throw "$AppID is not installed!" }
+  $installed = (Test-Path -Path "C:\ProgramData\chocolatey\lib\$PackageName" -PathType Container)
+  If (! $installed) { throw "Could not find $PackageName"}
 } catch {
   $ErrorMsg = $_.Exception.Message
   Write-Error $ErrorMsg
   Exit 1
 }
-Write-Output "$AppID is installed!"
+Write-Output "Found $PackageName"
+Exit 0
+
+
+# MsiExec
+$MsiID = "{}"
+try {
+  $installed = (Get-CimInstance -ClassName Win32_Product | Where-Object { $_.IdentifyingNumber -eq "$MsiID" })
+  If (! $installed) { throw "Could not find $MsiID"}
+} catch {
+  $ErrorMsg = $_.Exception.Message
+  Write-Error $ErrorMsg
+  Exit 1
+}
+Write-Output "Found $MsiID"
+Exit 0
+
+
+# WinGet
+$AppID = "Package.Name"
+try {
+  $winget = (Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe" | Sort-Object -Property Path | Select-Object -Last 1)
+  $installed = (& $winget list --id "$AppID" --exact | findstr "$AppID")
+  If (! $installed) { throw "Could not find $AppID" }
+} catch {
+  $ErrorMsg = $_.Exception.Message
+  Write-Error $ErrorMsg
+  Exit 1
+}
+Write-Output "Found $AppID"
+Exit 0
+
+
+# Registry
+$RegistryPath = "HKLM:\Path\To\Key"
+$RegistryName = "RegistryItem"
+$RegistryValue = 0
+try {
+  $CurrentValue = Get-ItemPropertyValue -Path $RegistryPath -Name $RegistryName
+  If ($CurrentValue -ne $RegistryValue) { throw "$RegistryName is $CurrentValue" }
+} catch {
+  $ErrorMsg = $_.Exception.Message
+  Write-Error $ErrorMsg
+  Exit 1
+}
+Write-Output "Found $RegistryName with value $CurrentValue"
 Exit 0
