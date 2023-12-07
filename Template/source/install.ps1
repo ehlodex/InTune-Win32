@@ -1,14 +1,14 @@
 #==================================================
 # Software : Template
 # Action   : Install
-# Method   : choco, misexec, winget, etc
-# Updated  : yyyy.mm.dd by Your Name Here ...
+# Method   : Chocolatey, MsiExec, WinGet, etc
+# Updated  : yyyy-mm-dd by Your Name Here ...
 #==================================================
 
 # Chocolatey
 $PackageName = "package"
 try {
-  Start-Process -FilePath "C:\ProgramData\chocolatey\choco.exe" -ArgumentList "install $PackageName -y"
+  Start-Process -FilePath "C:\ProgramData\chocolatey\choco.exe" -ArgumentList "install $PackageName -y" -Wait -NoNewWindow
 } catch {
   $ErrorMsg = $_.Exception.Message
   Write-Error $ErrorMsg
@@ -22,8 +22,6 @@ Exit 0
 $MsiName = "installer.msi"
 try {
   Start-Process "msiexec" -ArgumentList "/i $MsiName /qn" -Wait -NoNewWindow
-  # Remove shortcut from Public Desktop
-  Remove-Item -Path "C:\Users\Public\Desktop\template.lnk" -Force -ErrorAction SilentlyContinue
 } catch {
   $ErrorMsg = $_.Exception.Message
   Write-Error $ErrorMsg
@@ -36,8 +34,9 @@ Exit 0
 # WinGet
 $AppID = "Package.Name"
 try {
-  $winget = "$(Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe" | Sort-Object -Property Path | Select-Object -Last 1)\winget.exe"
-  & $winget install --id "$AppID" --scope machine --source winget --silent --accept-package-agreements --accept-source-agreements --disable-interactivity
+  $winget = (Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe" | Sort-Object -Property Path | Select-Object -Last 1)
+  Start-Process -FilePath "$winget" -Wait -NoNewWindow `
+    -ArgumentList "install --id $AppID --exact --scope machine --source winget --silent --accept-package-agreements --accept-source-agreements --disable-interactivity"
 } catch {
   $ErrorMsg = $_.Exception.Message
   Write-Error $ErrorMsg
@@ -45,3 +44,6 @@ try {
 }
 Write-Output "$AppID was installed successfully."
 Exit 0
+
+# Remove shortcut from Public Desktop
+Remove-Item -Path "C:\Users\Public\Desktop\template.lnk" -Force -ErrorAction SilentlyContinue
