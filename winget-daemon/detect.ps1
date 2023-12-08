@@ -5,19 +5,20 @@
 #==================================================
 
 $TaskName = "WinGet Upgrade Daemon"
-$TaskPath = "CompanyName"  # no spaces is best
+$TaskPath = "CompanyName"  # recommend: no spaces
 $DaemonPath = "C:\ProgramData\$TaskPath\winget-daemon.ps1"
+$DaemonOldPath = "C:\ProgramData\$TaskPath\Upgrade-WinGet.ps1"
 
 
-If (! (Test-Path -Path "$DaemonPath" -PathType Leaf)) {
-  Write-Host "The winget daemon is not installed!"
+If (! (Test-Path -Path "$DaemonPath" -PathType Leaf) -and ! (Test-Path -Path "$DaemonOldPath")) {
+  Write-Output "The winget daemon is not installed!"
   Exit 1
 }
 
 If (! (Get-ScheduledTask -TaskName "$TaskName" -TaskPath "\$TaskPath\")) {
-  Write-Host "The winget deamon is not scheduled!"
+  Write-Output "The winget deamon is not scheduled!"
   Exit 1
 }
 
-Write-Host "The wiget daemon is installed and scheduled."
+Write-Output "The winget daemon is installed and scheduled."
 Exit 0
