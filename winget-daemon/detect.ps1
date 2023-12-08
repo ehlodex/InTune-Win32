@@ -7,10 +7,8 @@
 $TaskName = "WinGet Upgrade Daemon"
 $TaskPath = "CompanyName"  # recommend: no spaces
 $DaemonPath = "C:\ProgramData\$TaskPath\winget-daemon.ps1"
-$DaemonOldPath = "C:\ProgramData\$TaskPath\Upgrade-WinGet.ps1"
 
-
-If (! (Test-Path -Path "$DaemonPath" -PathType Leaf) -and ! (Test-Path -Path "$DaemonOldPath")) {
+If (! (Test-Path -Path "$DaemonPath" -PathType Leaf)) {
   Write-Output "The winget daemon is not installed!"
   Exit 1
 }
