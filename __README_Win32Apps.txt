@@ -21,3 +21,9 @@ Everything for the .intunewin file should be in the ./source folder.
 Supporting files (e.g., detection script, logos, and documentation) should be in the project root.
 
 https://learn.microsoft.com/en-us/mem/intune/apps/apps-win32-prepare
+
+Install Command:
+powershell.exe -ExecutionPolicy Bypass -File install.ps1
+
+Uninstall Command:
+powershell.exe -ExecutionPolicy Bypass -File uninstall.ps1
