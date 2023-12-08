@@ -2,7 +2,6 @@
 # Software : WinGet Upgrade Daemon
 # Action   : Install
 # Method   : File + Task
-# Updated  : 2023-12-07 by Josh Burkholder; script created
 #==================================================
 
 $TaskName = "WinGet Upgrade Daemon"
