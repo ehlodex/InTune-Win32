@@ -1,4 +1,4 @@
-INTUNE WINDOWS 32 APPS
+# INTUNE WINDOWS 32 APPS
 
 Win32 Apps should be used when multiple files are required, or the tasks cannot
 be completed through remediation or a one-time script.
@@ -20,10 +20,10 @@ File names should follow standard PowerShell command conventions (e.g., Verb-Nou
 Everything for the .intunewin file should be in the ./source folder.
 Supporting files (e.g., detection script, logos, and documentation) should be in the project root.
 
-https://learn.microsoft.com/en-us/mem/intune/apps/apps-win32-prepare
+[Prepare Win32 app content for upload](https://learn.microsoft.com/en-us/mem/intune/apps/apps-win32-prepare)
 
-Install Command:
-powershell.exe -ExecutionPolicy Bypass -File install.ps1
+Install Command:  
+`powershell.exe -ExecutionPolicy Bypass -File install.ps1`
 
-Uninstall Command:
-powershell.exe -ExecutionPolicy Bypass -File uninstall.ps1
+Uninstall Command:  
+`powershell.exe -ExecutionPolicy Bypass -File uninstall.ps1`
