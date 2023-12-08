@@ -2,10 +2,11 @@
 # Software : WinGet Upgrade Daemon
 # Action   : Install
 # Method   : File + Task
+# Updated  : 2023-12-07 by Josh Burkholder; script created
 #==================================================
 
 $TaskName = "WinGet Upgrade Daemon"
-$TaskPath = "CompanyName"
+$TaskPath = "CompanyName"  # recommend: no spaces
 $DaemonPath = "C:\ProgramData\$TaskPath\winget-daemon.ps1"
 $DaemonDirectory = Split-Path -parent $DaemonPath
 
@@ -21,14 +22,23 @@ try {
   Exit 1
 }
 
-$SchTaskAction   = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File $DaemonPath" -WorkingDirectory "$DaemonDirectory"
-$SchTaskTrigger  = New-ScheduledTaskTrigger -Daily -At 2am
-$SchTaskSettings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Hours 2) -DontStopIfGoingOnBatteries -StartWhenAvailable
+try {
+  $SchTaskAction   = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File $DaemonPath" -WorkingDirectory "$DaemonDirectory"
+  $SchTaskTrigger  = New-ScheduledTaskTrigger -Daily -At 2am
+  $SchTaskSettings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Hours 2) -DontStopIfGoingOnBatteries -StartWhenAvailable
 
-Register-ScheduledTask -User SYSTEM -RunLevel Highest `
--Action $SchTaskAction `
--Trigger $SchTaskTrigger `
--Settings $SchTaskSettings `
--TaskPath "$TaskPath" `
--TaskName "$TaskName" `
--Description "Unattended upgrade for winget apps"
+  Register-ScheduledTask -User SYSTEM -RunLevel Highest `
+    -Action $SchTaskAction `
+    -Trigger $SchTaskTrigger `
+    -Settings $SchTaskSettings `
+    -TaskPath "$TaskPath" `
+    -TaskName "$TaskName" `
+    -Description "Unattended upgrade for winget apps"
+} catch {
+  $ErrorMsg = $_.Exception.Message
+  Write-Error $ErrorMsg
+  Exit 1  
+}
+
+Write-Output "The winget daemon was successfully installed."
+Exit 0
