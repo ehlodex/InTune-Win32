@@ -15,8 +15,6 @@ It is recommended to create both an Install- and Uninstall- file, so that the ap
 when it is no longer needed. Since the files are uploaded as a package, it is not necessary to use
 the package name as a prefix on the files.
 
-File names should follow standard PowerShell command conventions (e.g., Verb-Noun)
-
 Everything for the .intunewin file should be in the ./source folder.
 Supporting files (e.g., detection script, logos, and documentation) should be in the project root.
 
