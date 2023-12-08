@@ -6,7 +6,7 @@
 
 $TaskName = "WinGet Upgrade Daemon"
 $TaskPath = "CompanyName"
-$DAemonPath = "C:\ProgramData\$TaskPath\winget-daemon.ps1"
+$DaemonPath = "C:\ProgramData\$TaskPath\winget-daemon.ps1"
 
 
 If (Test-Path -Path "$DaemonPath") {
