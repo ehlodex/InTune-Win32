@@ -10,8 +10,7 @@ InTune Win32 Apps are any custom application that is not part of the Office 365
 
 Inune has built-in detection methods to determine if the app is installed, such
  as the presence of a registry key or file. You can also create a custom
- detection script to determine if the Win32 App is installed, but this is not
- recommended.
+ detection script to determine if the Win32 App is installed.
 
 It is recommended to create both an install.ps1 and uninstall.ps1 file, so that
  the app can be removed when it is no longer needed. Since the files are
