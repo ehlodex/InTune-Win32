@@ -9,7 +9,6 @@ $TaskPath = "CompanyName"  # recommend: no spaces
 $DaemonPath = "C:\ProgramData\$TaskPath\winget-daemon.ps1"
 $DaemonDirectory = Split-Path -parent $DaemonPath
 
-
 try {
   If (! (Test-Path -Path "$DaemonDirectory")) {
     New-Item -Path "$DaemonDirectory" -ItemType Directory -Force
